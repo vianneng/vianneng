@@ -1,0 +1,40 @@
+items = {'Super iPad': {"SKU": "ipd", "price": 549.99},
+         'MacBook Pro': {"SKU": "mbp", "price": 1399.99},
+         'Apple TV': {"SKU": "atv", "price": 109.5},
+         'VGA adapter': {"SKU": "vga", "price": 30},
+         }
+
+sku = str(input("SKU Scanned:"))
+sum = 0
+price = []
+products = []
+discount_price = 0
+deduct_price = 0
+discount = 0
+foundFlag = False
+
+remove_space = sku.strip()
+seperate_sku = remove_space.split(", ")
+i = 0
+
+while i < len(seperate_sku):
+    x = seperate_sku[i]
+    i += 1
+
+    for key in items:
+        if x == items[key]['SKU']:
+            price.append(items[key]['price'])
+            products.append(key)
+
+            if products.count('MacBook Pro') >= 1:
+                deduct_price = 30*(products.count('MacBook Pro'))
+            if products.count('Apple TV') % 3 == 0:
+                discount = float(109.5 * (products.count('Apple TV') / 3))
+            if products.count('Super iPad') > 4:
+                discount_price = float(((499.99 - 549.99) * (products.count('Super iPad'))))
+
+if not foundFlag:
+    for cost in price:
+        sum += cost
+        total_sum = sum - deduct_price - discount + discount_price
+    print("Total expected: $" + "{0:.2f}".format(total_sum))
